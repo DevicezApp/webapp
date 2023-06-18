@@ -1,0 +1,24 @@
+{
+  "name": "devicez-webapp",
+  "version": "0.1",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@popperjs/core": "^2.11.7",
+    "vue": "^3.3.4",
+    "bootstrap": "^5.3.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^4.2.3",
+    "vite": "^4.3.9",
+    "eslint": "^8.42.0",
+    "eslint-plugin-vue": "^9.11.0",
+    "sass": "^1.62.1",
+    "sass-loader": "^13.3.2",
+    "vue-loader": "^17.2.2"
+  }
+}
