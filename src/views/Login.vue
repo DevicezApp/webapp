@@ -47,7 +47,8 @@ export default {
     }
   },
   methods: {
-    login() {
+    async login() {
+      const loginResponse = await this.$axios.get('/login');
       console.log(this.username, this.password)
     }
   }
