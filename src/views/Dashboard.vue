@@ -1,11 +1,11 @@
 <script setup>
-import Footer from './components/AppFooter.vue'
+import Header from '../components/Header.vue'
 </script>
 
 <template>
-  <div class="container px-4 mt-4">
-    <h1>Login</h1>
-  </div>
+  <Header/>
 
-  <Footer/>
+  <div class="container px-4 mt-4">
+    <h1>Test</h1>
+  </div>
 </template>

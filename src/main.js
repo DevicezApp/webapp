@@ -1,27 +1,17 @@
 import {createApp} from 'vue'
-import {createRouter, createWebHistory} from 'vue-router'
+import App from './App.vue'
+import router from '@/router'
 
-import './scss/styles.scss'
-import Dashboard from "./Dashboard.vue";
-import Login from "./Login.vue";
+import {library} from '@fortawesome/fontawesome-svg-core'
+import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
+import {fas} from "@fortawesome/free-solid-svg-icons";
 
-const routes = [
-    {
-        path: '/',
-        name: 'Dashboard',
-        component: Dashboard
-    },
-    {
-        path: '/login',
-        name: 'Login',
-        component: Login
-    }
-]
+library.add(fas)
 
-const router = createRouter({
-    history: createWebHistory(), routes
-})
+import 'bootstrap/dist/css/bootstrap.min.css'
+import 'bootstrap'
 
-const app = createApp({})
-app.use(router)
-app.mount('#app')
+createApp(App)
+    .component('font-awesome-icon', FontAwesomeIcon)
+    .use(router)
+    .mount('#app')
