@@ -6,10 +6,18 @@
 
       <div class="card">
         <div class="card-header">
-          <b>Login</b>
+          <b>Register</b>
         </div>
         <div class="card-body">
-          <form class="form" @submit.prevent="login">
+          <form class="form" @submit.prevent="register">
+            <div class="mb-3">
+              <label for="name" class="form-label">Full Name</label>
+              <div class="input-group">
+                <span class="input-group-text" id="namePrepend"><font-awesome-icon icon="user"/></span>
+                <input v-model="name" type="text" class="form-control" name="name"
+                       aria-describedby="namePrepend" required>
+              </div>
+            </div>
             <div class="mb-3">
               <label for="email" class="form-label">E-Mail</label>
               <div class="input-group">
@@ -26,13 +34,21 @@
                        aria-describedby="passwordPrepend" required>
               </div>
             </div>
+            <div class="mb-3">
+              <label for="confirmPassword" class="form-label">Confirm Password</label>
+              <div class="input-group">
+                <span class="input-group-text" id="confirmPasswordPrepend"><font-awesome-icon icon="key"/></span>
+                <input v-model="confirmPassword" type="password" class="form-control" name="confirmPassword"
+                       aria-describedby="confirmPasswordPrepend" required>
+              </div>
+            </div>
 
             <div class="btn-group" role="group">
               <button class="btn btn-primary">
-                Login
+                Register
               </button>
-              <router-link v-if="information.registration" to="/register" class="btn btn-success">
-                Create an account
+              <router-link v-if="information.registration" to="/login" class="btn btn-danger">
+                Already have an account?
               </router-link>
             </div>
           </form>
@@ -52,24 +68,34 @@ export default {
         organisationName: '',
         registration: false
       },
+      name: '',
       email: '',
-      password: ''
+      password: '',
+      confirmPassword: ''
     }
   },
   created() {
     this.$axios.get('/')
         .then(response => {
+          if (!response.data.registration) {
+            this.$router.push('/login')
+            return;
+          }
+
           this.information = response.data
         })
   },
   methods: {
-    async login() {
-      this.$axios.post('/login', {username: this.username, password: this.password})
-          .then(response => {
-            if (response.data.success && response.data.token) {
-              // TODO login was successful
-            }
-          })
+    async register() {
+      this.$axios.post('/register', {
+        name: this.name,
+        email: this.email,
+        password: this.password
+      }).then(response => {
+        if (response.data.success) {
+          // TODO registration was successful
+        }
+      });
     }
   }
 }
