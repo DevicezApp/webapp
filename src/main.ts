@@ -12,10 +12,14 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap'
 import axios from "./axios";
 
+// @ts-ignore
+const url = import.meta.env.VITE_API_URL;
+console.log(url);
+
 createApp(App)
     .component('font-awesome-icon', FontAwesomeIcon)
     .use(router)
     .use(axios, {
-        baseUrl: 'https://api.devicez.de',
+        baseUrl: url,
     })
     .mount('#app')
