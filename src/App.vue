@@ -1,7 +1,9 @@
 <template>
-  <Navbar v-if="this.$route.meta.navbar"/>
+  <Navbar v-if="!this.$route.meta.hideNavbar"/>
   <div class="container px-4 mt-4">
-    <router-view></router-view>
+    <Suspense>
+      <router-view></router-view>
+    </Suspense>
   </div>
   <Footer/>
 </template>

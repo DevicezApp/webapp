@@ -9,7 +9,17 @@
           <b>Register</b>
         </div>
         <div class="card-body">
-          <form class="form" @submit.prevent="register">
+          <div class="alert alert-danger" v-if="error && !success">
+            {{ error }}
+          </div>
+          <div class="alert alert-success" v-if="success">
+            <b>Success!</b> We've sent a confirmation message to the given address.<br>
+            Please confirm your registration by following the link in this message!<br><br>
+
+            <router-link to="/login">(... return to login page)</router-link>
+          </div>
+
+          <form class="form" @submit.prevent="register" v-if="!success">
             <div class="mb-3">
               <label for="name" class="form-label">Full Name</label>
               <div class="input-group">
@@ -58,44 +68,41 @@
   </div>
 </template>
 
+<script setup>
+import InformationService from "@/services/information";
+
+const information = await InformationService.getServerInformation();
+</script>
+
 <script>
-import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
+import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome"
+import AuthenticationService from "@/services/authentication";
 
 export default {
   data() {
     return {
-      information: {
-        organisationName: '',
-        registration: false
-      },
       name: '',
       email: '',
       password: '',
-      confirmPassword: ''
+      confirmPassword: '',
+      error: '',
+      success: false
     }
-  },
-  created() {
-    this.$axios.get('/')
-        .then(response => {
-          if (!response.data.registration) {
-            this.$router.push('/login')
-            return;
-          }
-
-          this.information = response.data
-        })
   },
   methods: {
     async register() {
-      this.$axios.post('/register', {
-        name: this.name,
-        email: this.email,
-        password: this.password
-      }).then(response => {
-        if (response.data.success) {
-          // TODO registration was successful
-        }
-      });
+      if (this.password !== this.confirmPassword){
+        this.error = 'PASSWORD_MISMATCH'
+        return
+      }
+
+      const result = await AuthenticationService.register(this.name, this.email, this.password)
+      if (result.success) {
+        this.success = true
+        return
+      }
+
+      this.error = result.error
     }
   }
 }

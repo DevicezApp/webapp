@@ -4,12 +4,12 @@
       <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
           <div>
-            <font-awesome-icon icon="gauge"></font-awesome-icon>
-            Dashboard
+            <font-awesome-icon icon="layer-group"></font-awesome-icon>
+            Groups
           </div>
         </div>
         <div class="card-body">
-          <p>Dashboard</p>
+          <p>Groups</p>
         </div>
       </div>
     </div>
@@ -17,8 +17,8 @@
 </template>
 
 <script>
-import {defineComponent} from "vue"
-import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome"
+import {defineComponent} from "vue";
+import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
 
 export default defineComponent({
   components: {FontAwesomeIcon}

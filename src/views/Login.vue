@@ -9,6 +9,10 @@
           <b>Login</b>
         </div>
         <div class="card-body">
+          <div class="alert alert-danger" v-if="error">
+            {{ error }}
+          </div>
+
           <form class="form" @submit.prevent="login">
             <div class="mb-3">
               <label for="email" class="form-label">E-Mail</label>
@@ -42,34 +46,35 @@
   </div>
 </template>
 
+<script setup>
+import InformationService from "@/services/information";
+
+const information = await InformationService.getServerInformation();
+</script>
+
 <script>
 import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
+import AuthenticationService from "@/services/authentication";
 
 export default {
   data() {
     return {
-      information: {
-        organisationName: '',
-        registration: false
-      },
       email: '',
-      password: ''
+      password: '',
+      error: ''
     }
-  },
-  created() {
-    this.$axios.get('/')
-        .then(response => {
-          this.information = response.data
-        })
   },
   methods: {
     async login() {
-      this.$axios.post('/login', {username: this.username, password: this.password})
-          .then(response => {
-            if (response.data.success && response.data.token) {
-              // TODO login was successful
-            }
-          })
+      const result = await AuthenticationService.login(this.email, this.password);
+      if (result.success) {
+        localStorage.setItem('token', result.token)
+        this.$router.push({
+          path: this.$route.query.redirect ? this.$route.query.redirect : '/'
+        })
+      } else {
+        this.error = result.error
+      }
     }
   }
 }
