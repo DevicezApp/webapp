@@ -8,8 +8,27 @@
             Devices
           </div>
         </div>
-        <div class="card-body">
-          <p>Devices</p>
+        <div class="card-body table-responsive">
+          <table class="table table-striped table-bordered">
+            <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Platform</th>
+              <th>MAC</th>
+              <th>Status</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="device in devices">
+              <th>{{ device.id }}</th>
+              <th>{{ device.name }}</th>
+              <th>{{ device.macAddress }}</th>
+              <th>{{ device.platform }}</th>
+              <th>{{ device.online ? 'Online' : 'Offline' }}</th>
+            </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
@@ -18,7 +37,7 @@
 
 <script>
 import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome"
-import {API} from "@/services/api"
+import DeviceService from "@/services/device"
 
 export default {
   data() {
@@ -26,14 +45,8 @@ export default {
       devices: []
     }
   },
-  created() {
-    API.get('/devices')
-        .then(response => {
-          if (response.data.success) {
-            this.devices = response.data.devices
-            console.log(this.devices)
-          }
-        })
+  async created() {
+    this.devices = await DeviceService.devices()
   }
 }
 </script>

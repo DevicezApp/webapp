@@ -54,6 +54,15 @@ const routes = [
         }
     },
     {
+        path: '/confirm',
+        name: 'confirm',
+        component: () => import('./views/Register.vue'),
+        meta: {
+            hideNavbar: true,
+            confirm: true
+        }
+    },
+    {
         path: '/error',
         name: 'error',
         component: () => import('./views/Error.vue'),

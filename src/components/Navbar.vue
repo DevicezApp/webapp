@@ -37,13 +37,15 @@
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                  data-bs-toggle="dropdown" aria-expanded="false">
                 <font-awesome-icon icon="user"></font-awesome-icon>
-                LOL
+                {{ user.name }}
               </a>
               <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" href="<?= base_url('logout') ?>">
-                  <font-awesome-icon
-                      icon="sign-out-alt"></font-awesome-icon>
-                  Logout</a></li>
+                <li>
+                  <a class="dropdown-item" href="#" v-on:click="logout">
+                    <font-awesome-icon icon="sign-out-alt"></font-awesome-icon>
+                    Logout
+                  </a>
+                </li>
               </ul>
             </li>
           </ul>
@@ -52,3 +54,20 @@
     </nav>
   </header>
 </template>
+
+<script setup>
+import AuthenticationService from "@/services/authentication";
+
+const user = await AuthenticationService.whoami();
+</script>
+
+<script>
+export default {
+  methods: {
+    logout() {
+      localStorage.removeItem('token')
+      this.$router.push('/login')
+    }
+  }
+}
+</script>

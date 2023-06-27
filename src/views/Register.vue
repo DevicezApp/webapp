@@ -19,7 +19,26 @@
             <router-link to="/login">(... return to login page)</router-link>
           </div>
 
-          <form class="form" @submit.prevent="register" v-if="!success">
+          <div class="alert alert-info" v-if="confirm && confirmSuccess === null">
+            <b>Loading...</b> Confirmation is pending!<br>
+          </div>
+
+          <div class="alert alert-success" v-if="confirm && confirmSuccess">
+            <b>Success!</b> Your registration has been confirmed.<br/>
+            <router-link to="/login">You may now log-in!</router-link>
+            <br>
+          </div>
+
+          <div class="alert alert-danger" v-if="confirm && !confirmSuccess">
+            <b>Error!</b> Your account couldn't be confirmed. Please check the verification link for completeness and
+            try
+            again.<br/><br/>
+            Maybe you already verified your account?
+            <router-link to="/login">Try logging in!</router-link>
+            <br>
+          </div>
+
+          <form class="form" @submit.prevent="register" v-if="!success && !confirm">
             <div class="mb-3">
               <label for="name" class="form-label">Full Name</label>
               <div class="input-group">
@@ -86,12 +105,21 @@ export default {
       password: '',
       confirmPassword: '',
       error: '',
-      success: false
+      success: false,
+      confirm: false,
+      confirmSuccess: null
+    }
+  },
+  async created() {
+    const id = this.$route.query.id
+    if (id) {
+      this.confirm = true;
+      this.confirmSuccess = await AuthenticationService.confirm(id)
     }
   },
   methods: {
     async register() {
-      if (this.password !== this.confirmPassword){
+      if (this.password !== this.confirmPassword) {
         this.error = 'PASSWORD_MISMATCH'
         return
       }
