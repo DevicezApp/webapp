@@ -1,4 +1,4 @@
-import {BaseApiService} from './api'
+import {ApiError, BaseApiService} from './api'
 import router from '../router'
 
 class AuthenticationService extends BaseApiService {
@@ -10,7 +10,7 @@ class AuthenticationService extends BaseApiService {
             })
             return response.data
         } catch (e) {
-            return e.response.data;
+            throw new ApiError(e.response.data.error)
         }
     }
 
@@ -23,7 +23,7 @@ class AuthenticationService extends BaseApiService {
             })
             return response.data
         } catch (e) {
-            return e.response.data
+            throw new ApiError(e.response.data.error)
         }
     }
 

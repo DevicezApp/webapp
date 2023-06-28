@@ -3,43 +3,46 @@ import Dashboard from "./views/Dashboard.vue"
 import Devices from "./views/Devices.vue"
 import Groups from "./views/Groups.vue"
 import Users from "./views/Users.vue"
+import Device from "./views/Device.vue"
 
 const routes = [
     {
         path: '/',
-        name: 'dashboard',
-        component: Dashboard,
+        component: () => import('./views/Dashboard.vue'),
         meta: {
             requiresAuth: true
         }
     },
     {
         path: '/devices',
-        name: 'devices',
-        component: Devices,
+        component: () => import('./views/Devices.vue'),
+        meta: {
+            requiresAuth: true
+        }
+    },
+    {
+        path: '/device/:id',
+        component: () => import('./views/Device.vue'),
         meta: {
             requiresAuth: true
         }
     },
     {
         path: '/groups',
-        name: 'groups',
-        component: Groups,
+        component: () => import('./views/Groups.vue'),
         meta: {
             requiresAuth: true
         }
     },
     {
         path: '/users',
-        name: 'users',
-        component: Users,
+        component: () => import('./views/Users.vue'),
         meta: {
             requiresAuth: true
         }
     },
     {
         path: '/login',
-        name: 'login',
         component: () => import('./views/Login.vue'),
         meta: {
             hideNavbar: true
@@ -47,7 +50,6 @@ const routes = [
     },
     {
         path: '/register',
-        name: 'register',
         component: () => import('./views/Register.vue'),
         meta: {
             hideNavbar: true
@@ -55,7 +57,6 @@ const routes = [
     },
     {
         path: '/confirm',
-        name: 'confirm',
         component: () => import('./views/Register.vue'),
         meta: {
             hideNavbar: true,
@@ -64,7 +65,6 @@ const routes = [
     },
     {
         path: '/error',
-        name: 'error',
         component: () => import('./views/Error.vue'),
         meta: {
             hideNavbar: true

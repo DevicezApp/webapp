@@ -7,7 +7,7 @@ class InformationService extends BaseApiService {
             const response = await this.getApi().get('/')
             return response.data
         } catch (e) {
-            router.push({
+            await router.push({
                 path: '/error',
                 query: {message: e.message}
             })

@@ -1,4 +1,4 @@
-import {BaseApiService} from './api'
+import {ApiError, BaseApiService} from './api'
 import router from '../router'
 
 class DeviceService extends BaseApiService {
@@ -7,7 +7,16 @@ class DeviceService extends BaseApiService {
             const response = await this.getApi().get('/devices')
             return response.data.devices
         } catch (e) {
-            return e.response.data;
+            throw new ApiError()
+        }
+    }
+
+    async device(id: string): Promise<Device> {
+        try {
+            const response = await this.getApi().get(`/device/${id}`)
+            return response.data.device
+        } catch (e) {
+            throw new ApiError(e.response.data.error)
         }
     }
 }
